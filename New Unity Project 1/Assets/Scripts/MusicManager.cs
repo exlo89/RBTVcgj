@@ -8,8 +8,7 @@ public class MusicManager : MonoBehaviour {
 
     // Use this for initialization
     void Awake() {
-		if(GameObject.FindGameObjectsWithTag("Player").Length > 1) {
-			Debug.Log("Zu viel");
+		if(GameObject.FindGameObjectsWithTag("Musicplayer").Length > 1) {
 			Destroy(gameObject);
 		} else {
 			DontDestroyOnLoad(gameObject);
@@ -18,7 +17,6 @@ public class MusicManager : MonoBehaviour {
 	}
 
     void Start() {
-		Debug.Log("test");
         audioSource = GetComponent<AudioSource>();
         audioSource.volume = PlayerPrefsManager.GetMasterVolume();
 		audioSource.clip = levelMusicChangeArray[0];
@@ -28,7 +26,7 @@ public class MusicManager : MonoBehaviour {
 
     void OnLevelWasLoaded(int level) {
         AudioClip thisLevelMusic = levelMusicChangeArray[level];
-        Debug.Log("Playing clip: " + thisLevelMusic + " on  level " + level);
+        //Debug.Log("Playing clip: " + thisLevelMusic + " on  level " + level);
         if(level > 1) {
             audioSource.clip = thisLevelMusic;
             audioSource.loop = true;
