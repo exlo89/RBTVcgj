@@ -10,6 +10,7 @@ public class Projectile : MonoBehaviour {
         Destroy(this.gameObject, 1);
     }
 
+
     public float GetDamage() {
         return damage;
     }
