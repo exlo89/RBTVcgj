@@ -7,6 +7,8 @@ public class Weapon : MonoBehaviour {
     public LayerMask whatToHit;
     public Transform bullet;
     Transform firePoint;
+	private bool fire = true;
+
     void Awake() {
         firePoint = transform.FindChild("FirePoint");
         if (firePoint == null) {
@@ -20,7 +22,7 @@ public class Weapon : MonoBehaviour {
         difference.Normalize();
         float rotZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, rotZ + 90);
-		if (!(PlayerMovement.getNoMove())) {
+		if (!(PlayerMovement.getNoMove()) && fire) {
 			//======================Feuer====================================
 			if (Input.GetKeyDown(KeyCode.Mouse0)) {
 				InvokeRepeating("Fire", 0.000001f, fireRate);
@@ -30,6 +32,10 @@ public class Weapon : MonoBehaviour {
 			}
 		}
     }
+
+	public void setFire(bool x) {
+		fire = x;
+	}
 
    void Fire() {
         Instantiate(bullet, firePoint.position, firePoint.rotation);

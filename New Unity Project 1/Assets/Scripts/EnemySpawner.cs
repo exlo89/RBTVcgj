@@ -3,7 +3,12 @@ using System.Collections;
 
 public class EnemySpawner : MonoBehaviour {
 
-    public GameObject enemyPrefab;
+    public GameObject enemyPrefab1;
+	public GameObject enemyPrefab2;
+	public GameObject enemyPrefab3;
+	public float dropRate1;
+	public float dropRate2;
+	public float dropRate3;
     public float speed = 5f;
     public float spawnDelay = 0.5f;
 	private int wave = 3;
@@ -34,7 +39,7 @@ public class EnemySpawner : MonoBehaviour {
 		PlayerMovement.setNoMove(true);
         Transform freePosition = NextFreePosition();
         if(freePosition) {
-            GameObject enemy = Instantiate(enemyPrefab, freePosition.position, Quaternion.identity) as GameObject;
+			GameObject enemy = Instantiate(chooseEnemy(), freePosition.position, Quaternion.identity) as GameObject;
             enemy.transform.parent = freePosition;
 			counter++;
 		}
@@ -49,8 +54,19 @@ public class EnemySpawner : MonoBehaviour {
 		}
 		
     }
+
+	private GameObject chooseEnemy() {
+		if(Random.Range(0f,1f) <= dropRate3) {
+			return enemyPrefab3;
+		} else if(Random.Range(0f, 1f) <= dropRate2) {
+			return enemyPrefab2;
+		} else {
+			return enemyPrefab1;
+		}
+	} 
+
 	public int getWaveCounter() {
-		Debug.Log("test " + waveCounter);
+//		Debug.Log("test " + waveCounter);
 		return waveCounter;
 	}
     Transform NextFreePosition() {
