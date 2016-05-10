@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Projectile : MonoBehaviour {
     public float damage = 10f;
-    public int moveSpeed = 100;
+	public int moveSpeed = 100;
 	public AudioClip shoot;
 
 	void Start() {
@@ -13,11 +13,10 @@ public class Projectile : MonoBehaviour {
 		audioSource.Play();
 	}
 
-    void Update() {
-        transform.Translate(Vector3.down * Time.deltaTime * moveSpeed);
-        Destroy(this.gameObject, 1);
-    }
-
+	void Update() {
+		transform.Translate(Vector3.down * Time.deltaTime * moveSpeed);
+		Destroy(this.gameObject, 1);
+	}
 
     public float GetDamage() {
         return damage;

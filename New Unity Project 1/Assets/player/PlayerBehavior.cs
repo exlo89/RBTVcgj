@@ -10,12 +10,8 @@ public class PlayerBehavior : MonoBehaviour {
     public Text life;
 	public Text highscore;
 	public Image headImage;
-	public Sprite[] characterSprites;
 	public Sprite[] headSprites;
 	private static bool noMove;
-	private SpriteRenderer currentSprite;
-	private bool stand;
-	private bool isAnima;
 	private bool stop = false;
 	private double score;
 	GameObject textWave;
@@ -25,8 +21,6 @@ public class PlayerBehavior : MonoBehaviour {
 		health = 100;
 		life.text = health.ToString();
 		score = 0;
-		isAnima = false;
-		currentSprite = gameObject.GetComponent<SpriteRenderer>();
 		highscore.text = score.ToString();
     }
 
@@ -35,49 +29,15 @@ public class PlayerBehavior : MonoBehaviour {
 
 		highscore.text = score.ToString();
 		healthAdvice();
-		movement();
  
-		/*
-		Transform weapon = gameObject.transform.FindChild("arrow");
-		float grad = weapon.rotation.eulerAngles.z;
-		/*
-		if (grad > 45 && grad <= 135) {
-			spriteA = 7;
-			spriteB = 8;
-			spriteC = 6;
-		} else if (grad > 135 && grad <= 225) {
-			spriteA = 4;
-			spriteB = 5;
-			spriteC = 3;
-		} else if (grad > 225 && grad <= 315) {
-			spriteA = 10;
-			spriteB = 11;
-			spriteC = 9;
-		} else {
-			spriteA = 1;
-			spriteB = 2;
-			spriteC = 0;
-		}
-
-		
-		*/
 		if (!noMove) {
+			movement();
 			wave.GetComponent<Text>().enabled = false;
-			
-
-			if (!(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))) {
-				stand = true;
-			} else {
-				stand = false;
-			}
-
 		} else {
-			//currentSprite.sprite = characterSprites[0]; //stehsprite
-			
 			wave.GetComponent<Text>().enabled = true;
 			wave.text = "wave " + textWave.GetComponent<EnemySpawner>().getWaveCounter().ToString();
 		}
-
+		
         if (isPlayerDead()) {
 			life.text = "0";
 			wave.enabled = true;
@@ -85,9 +45,74 @@ public class PlayerBehavior : MonoBehaviour {
 			noMove = true;
 			wave.text = "you have " + score + " points and survived " + (textWave.GetComponent<EnemySpawner>().getWaveCounter()-1) + " waves";
 			Invoke("back", 5f);
-
         }
 	}
+
+	//=============================================fertig============================================================
+
+	/// <summary>
+	/// verringert die Lebenspunkte
+	/// </summary>
+	/// <param name="value">um wie viel sollen die Lebenspunkte verringert werden</param>
+
+	public void decreaseHealth(float value) {
+		if (!stop) {
+			health -= value;
+			life.text = health.ToString();
+		}
+	}
+
+	/// <summary>
+	/// Setter für den Highscore
+	/// </summary>
+	/// <param name="x">Parameter für die Punktezahl, die übergeben werden soll</param>
+
+	public void addScore(double x) {
+		score = score + x;
+	}
+
+	/// <summary>
+	/// Springt zurück zum Hauptmenü und zerstört den aktuellen Musikplayer
+	/// </summary>
+
+	private void back() {
+		Destroy(GameObject.Find("Persistent Music"));
+		SceneManager.LoadScene("01a Start");
+	}
+
+	/// <summary>
+	/// Setter für die NoMove Variable.
+	/// </summary>
+	/// <param name="x">true oder false für das Setzen</param>
+
+	public static void setNoMove(bool x) {
+		noMove = x;
+	}
+
+	/// <summary>
+	/// Getter für die NoMove Variable
+	/// </summary>
+	/// <returns>gibt den aktuellen Zustand zurück (true/false)</returns>
+
+	public static bool getNoMove() {
+		return noMove;
+	}
+
+	/// <summary>
+	/// Prüft ob der Spieler noch lebt
+	/// </summary>
+	/// <returns>gibt false zurück, wenn der Spieler noch lebt</returns>
+
+	private bool isPlayerDead() {
+		if (health <= 0) {
+			return true;
+		}
+		return false;
+	}
+
+	/// <summary>
+	/// Bewegung des Spielers. Nur die W,A,S,D und TAB Taste.
+	/// </summary>
 
 	private void movement() {
 
@@ -135,62 +160,5 @@ public class PlayerBehavior : MonoBehaviour {
 			life.text = "0";
 		}
 	}
-
-	public void setScore(double x) {
-		score = score +  x;
-	}
-
-	private void back() {
-		Destroy(GameObject.Find("Persistent Music"));
-		SceneManager.LoadScene("01a Start");
-	}
-
-	private void animationSprite(int a, int b, int c) {
-		if (stand) {
-			currentSprite.sprite = characterSprites[c];
-		} else {
-			if (isAnima) {
-				StartCoroutine(anima(a, 0.5f));
-			}else {
-				StartCoroutine(anima(b, 0.5f));
-			}
-		}
-	}
-
-	IEnumerator anima(int x, float delaytime) {
-		yield return new WaitForSeconds(delaytime);
-		currentSprite.sprite = characterSprites[x];
-		if (isAnima) {
-			isAnima = false;
-		} else {
-			isAnima = true;
-		}
-	}
-	public static void setNoMove(bool x) {
-		noMove = x;
-	}
-
-	public static bool getNoMove() {
-		return noMove;
-	}
-
-	public void decreaseHealth(float value) {
-		if (!stop) {
-			health -= value;
-			life.text = health.ToString();
-		}
-		
-	}
-
-    private bool isPlayerDead() {
-        if(health <= 0) {
-            return true;
-        }
-        return false;
-    }
-
-   
-    
-	
 }
 

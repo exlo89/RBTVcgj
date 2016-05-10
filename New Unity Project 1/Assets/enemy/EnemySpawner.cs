@@ -26,13 +26,6 @@ public class EnemySpawner : MonoBehaviour {
             spawnWave();
         }
     }
-	/*
-    void SpawnEnemys() {
-        foreach(Transform child in transform) {
-            GameObject enemy = Instantiate(enemyPrefab, child.position, Quaternion.identity) as GameObject;
-            enemy.transform.parent = child;
-        }
-    }*/
 
     void spawnWave() {
 		PlayerBehavior.setNoMove(true);
@@ -77,7 +70,7 @@ public class EnemySpawner : MonoBehaviour {
         return null;
     }
 
-    bool AllMembersDead() {
+    private bool AllMembersDead() {
         foreach(Transform childPositionGameObject in transform) {
             if(childPositionGameObject.childCount > 0) {
                 return false;

@@ -63,16 +63,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\LevelManager.cs" />
-    <Compile Include="Assets\Scripts\MusicManager.cs" />
-    <Compile Include="Assets\Scripts\OptionsController.cs" />
-    <Compile Include="Assets\Scripts\PlayerPrefsManager.cs" />
-    <Compile Include="Assets\Scripts\Position.cs" />
     <Compile Include="Assets\enemy\EnemyBehavior.cs" />
     <Compile Include="Assets\enemy\EnemySpawner.cs" />
     <Compile Include="Assets\player\PlayerBehavior.cs" />
     <Compile Include="Assets\player\Projectile.cs" />
     <Compile Include="Assets\player\Weapon.cs" />
+    <Compile Include="Assets\scripts\LevelManager.cs" />
+    <Compile Include="Assets\scripts\MusicManager.cs" />
+    <Compile Include="Assets\scripts\OptionsController.cs" />
+    <Compile Include="Assets\scripts\PlayerPrefsManager.cs" />
+    <Compile Include="Assets\scripts\Position.cs" />
+    <Compile Include="Assets\scripts\SoundEffectPlayer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
