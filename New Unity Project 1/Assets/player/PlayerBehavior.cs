@@ -37,7 +37,9 @@ public class PlayerBehavior : MonoBehaviour {
 			wave.GetComponent<Text>().enabled = true;
 			wave.text = "wave " + textWave.GetComponent<EnemySpawner>().getWaveCounter().ToString();
 		}
-		
+
+	    
+        	
         if (isPlayerDead()) {
 			life.text = "0";
 			wave.enabled = true;

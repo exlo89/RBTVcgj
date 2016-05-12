@@ -42,7 +42,7 @@ public class EnemyBehavior : MonoBehaviour {
 				health = 3;
 				damage = 10;
 				break;
-			case 3: // boss 10 health
+			case 3: // boss 5 health
 				health = 5;
 				damage = 30;
 				hitTime = 2;
@@ -62,7 +62,7 @@ public class EnemyBehavior : MonoBehaviour {
 			case 8://spieler
 				Weapon.ableToFire = false;
 				enemyHitPlayer();
-				InvokeRepeating("enemyHitPlayer", hitTime, hitTime);
+				//InvokeRepeating("enemyHitPlayer", hitTime, hitTime);
 				break;
 			case 11://projektil
 				Destroy(col.gameObject);
@@ -75,7 +75,7 @@ public class EnemyBehavior : MonoBehaviour {
 	private void OnTriggerExit2D(Collider2D col) {
 		//switch (col.gameObject.layer) {
 			//case 8://
-				CancelInvoke();
+				//CancelInvoke();
 				Weapon.ableToFire = true;
 				//break;
 		//}
