@@ -25,8 +25,8 @@ public class EnemyBehavior : MonoBehaviour {
 	private bool isDead = false;
 	
 
-	private void Start () { 
-		audioSource = GetComponent<AudioSource>();
+	private void Start () {
+        audioSource = GetComponent<AudioSource>();
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		polyCollider = GetComponent<PolygonCollider2D>();
 		audioSource.volume = PlayerPrefsManager.GetMasterVolume();
@@ -49,7 +49,7 @@ public class EnemyBehavior : MonoBehaviour {
 				break;
 		}
 	}
-	
+
 	// Update is called once per frame
 	private void Update () {
 		if (!isDead && !(PlayerBehavior.getNoMove())) {
@@ -57,7 +57,7 @@ public class EnemyBehavior : MonoBehaviour {
 		}
     }
 
-    private void OnTriggerEnter2D(Collider2D col) {
+	private void OnTriggerEnter2D(Collider2D col) {
 		switch (col.gameObject.layer) {
 			case 8://spieler
 				Weapon.ableToFire = false;
@@ -66,22 +66,22 @@ public class EnemyBehavior : MonoBehaviour {
 				break;
 			case 11://projektil
 				Destroy(col.gameObject);
-				health--;
+				decreaseHealth(1);
 				healthPointsEnemy();
 				break;
 		}
-    }
+	}
 
 	private void OnTriggerExit2D(Collider2D col) {
 		//switch (col.gameObject.layer) {
-			//case 8://
-				//CancelInvoke();
-				Weapon.ableToFire = true;
-				//break;
+		//case 8://
+		//CancelInvoke();
+		Weapon.ableToFire = true;
+		//break;
 		//}
 	}
 
-	private void healthPointsEnemy() {
+	public void healthPointsEnemy() {
 		if(health <= 0) {
 			isDead = true;
 			spriteRenderer.sprite = deadPicture;
@@ -105,6 +105,10 @@ public class EnemyBehavior : MonoBehaviour {
 			playSounds(normal);
 		}
 	}
+
+    public void decreaseHealth(int x) {
+		health -= x;
+    }
 
 	//=========================================================fertig===========================================================
 
@@ -135,7 +139,7 @@ public class EnemyBehavior : MonoBehaviour {
 	/// Der Gegner trifft den Spieler.
 	/// </summary>
 
-	private void enemyHitPlayer() {
+	public void enemyHitPlayer() {
 		playSounds(hitPlayer);
 		player.GetComponent<PlayerBehavior>().decreaseHealth(damage);
 	}
