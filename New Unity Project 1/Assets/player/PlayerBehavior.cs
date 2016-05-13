@@ -14,6 +14,7 @@ public class PlayerBehavior : MonoBehaviour {
 	private static bool noMove;
 	private bool stop = false;
 	private double score;
+	private bool timeoutField = false;
 	GameObject textWave;
 
 	void Start () {
@@ -34,20 +35,23 @@ public class PlayerBehavior : MonoBehaviour {
 			movement();
 			wave.GetComponent<Text>().enabled = false;
 		} else {
+			this.transform.position = new Vector3(0, 0, 0);
 			wave.GetComponent<Text>().enabled = true;
 			wave.text = "wave " + textWave.GetComponent<EnemySpawner>().getWaveCounter().ToString();
 		}
 
-	    
-        	
         if (isPlayerDead()) {
 			life.text = "0";
 			wave.enabled = true;
 			highscore.enabled = false;
 			noMove = true;
-			wave.text = "you have " + score + " points and survived " + (textWave.GetComponent<EnemySpawner>().getWaveCounter()-1) + " waves";
+			wave.text = "you have " + score + " points and survived " + (textWave.GetComponent<EnemySpawner>().getWaveCounter()-2) + " waves";
 			Invoke("back", 5f);
         }
+	}
+
+	public void setTimeoutField(bool x) {
+		timeoutField = x;
 	}
 
 	//=============================================fertig============================================================
@@ -106,7 +110,7 @@ public class PlayerBehavior : MonoBehaviour {
 	/// <returns>gibt false zurück, wenn der Spieler noch lebt</returns>
 
 	private bool isPlayerDead() {
-		if (health <= 0) {
+		if (health <= 0 || timeoutField) {
 			return true;
 		}
 		return false;

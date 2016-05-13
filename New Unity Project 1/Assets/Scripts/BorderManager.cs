@@ -11,16 +11,27 @@ public class BorderManager : MonoBehaviour {
 	private void Update() {
 		if (startCount) {
 			countdown -= Time.deltaTime;
+			warning.text = "You leave the field. \n Turn back or you die in " + Mathf.Round(countdown) + " seconds.";
+			if (countdown < 0) {
+				GameObject player = GameObject.Find("player prefab");
+				player.GetComponent<PlayerBehavior>().setTimeoutField(true);
+				warning.enabled = false;
+			}
 		}
 	}
 
-	public void OnTriggerStay2D(Collider2D col) {
-		Debug.Log("kollidiert mit " + col);
+	private void OnTriggerExit2D(Collider2D col) {
+		if(col.gameObject.layer == 8) {
+			warning.enabled = true;
+			startCount = true;
+		}
+	}
+
+	private void OnTriggerEnter2D(Collider2D col) {
 		if (col.gameObject.layer == 8) {
-			Debug.Log("das isz der spieler");
-			warning.text = "You leave the field. \n Turn back or you die in " + countdown + " seconds.";
-			
+			warning.enabled = false;
+			startCount = false;
+			countdown = 10;
 		}
 	}
-
 }

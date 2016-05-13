@@ -62,7 +62,6 @@ public class EnemyBehavior : MonoBehaviour {
 			case 8://spieler
 				Weapon.ableToFire = false;
 				enemyHitPlayer();
-				//InvokeRepeating("enemyHitPlayer", hitTime, hitTime);
 				break;
 			case 11://projektil
 				Destroy(col.gameObject);
@@ -73,12 +72,7 @@ public class EnemyBehavior : MonoBehaviour {
 	}
 
 	private void OnTriggerExit2D(Collider2D col) {
-		//switch (col.gameObject.layer) {
-		//case 8://
-		//CancelInvoke();
 		Weapon.ableToFire = true;
-		//break;
-		//}
 	}
 
 	public void healthPointsEnemy() {
