@@ -11,6 +11,7 @@ public class EnemySpawner : MonoBehaviour {
 	public float dropRate3;
     public float speed = 5f;
     public float spawnDelay = 0.5f;
+	private float startPositionZ;
 	private int counter = 0;
 	private int waveCounter = 1;
 
@@ -31,8 +32,8 @@ public class EnemySpawner : MonoBehaviour {
 		PlayerBehavior.setNoMove(true);
         Transform freePosition = NextFreePosition();
         if(freePosition) {
-			GameObject enemy = Instantiate(chooseEnemy(), freePosition.position, Quaternion.identity) as GameObject;
-            enemy.transform.parent = freePosition;
+			GameObject enemy = Instantiate(chooseEnemy(), new Vector3(freePosition.position.x, freePosition.position.y, startPositionZ), Quaternion.identity) as GameObject;
+			enemy.transform.parent = freePosition;
 			counter++;
 		}
         if(NextFreePosition()) {
@@ -49,10 +50,13 @@ public class EnemySpawner : MonoBehaviour {
 
 	private GameObject chooseEnemy() {
 		if(Random.Range(0f,1f) <= dropRate3) {
+			startPositionZ = enemyPrefab3.transform.position.z;
 			return enemyPrefab3;
 		} else if(Random.Range(0f, 1f) <= dropRate2) {
+			startPositionZ = enemyPrefab2.transform.position.z;
 			return enemyPrefab2;
 		} else {
+			startPositionZ = enemyPrefab1.transform.position.z;
 			return enemyPrefab1;
 		}
 	} 

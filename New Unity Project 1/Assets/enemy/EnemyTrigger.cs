@@ -3,36 +3,30 @@ using System.Collections;
 
 public class EnemyTrigger : MonoBehaviour {
 
-	private EnemyBehavior x;
+	private EnemyBehavior enemyBehaviorScript;
 	private void Start() {
-		x = this.GetComponentInParent<EnemyBehavior>();
+		enemyBehaviorScript = this.GetComponentInParent<EnemyBehavior>();
 	}
 
-
-    private void OnTriggerEnter2D(Collider2D col)
-    {
-        switch (col.gameObject.layer)
-        {
+    private void OnTriggerEnter2D(Collider2D col) {
+        switch (col.gameObject.layer){
             case 8://spieler
                 Weapon.ableToFire = false;
-                x.enemyHitPlayer();
-                //InvokeRepeating("enemyHitPlayer", hitTime, hitTime);
+                enemyBehaviorScript.enemyHitPlayer();
                 break;
             case 11://projektil
                 Destroy(col.gameObject);
-				x.decreaseHealth(1);
-                x.healthPointsEnemy();
+				enemyBehaviorScript.decreaseHealth(1);
+                enemyBehaviorScript.healthPointsEnemy();
                 break;
         }
     }
 
-    private void OnTriggerExit2D(Collider2D col)
-    {
-        //switch (col.gameObject.layer) {
-        //case 8://
-        //CancelInvoke();
+	public void enableCollider(bool x) {
+		GetComponent<PolygonCollider2D>().enabled = x;
+	}
+
+    private void OnTriggerExit2D(Collider2D col) {
         Weapon.ableToFire = true;
-        //break;
-        //}
     }
 }

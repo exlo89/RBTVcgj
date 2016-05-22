@@ -58,16 +58,18 @@ public class EnemyBehavior : MonoBehaviour {
     }
 
 	private void OnTriggerEnter2D(Collider2D col) {
-		switch (col.gameObject.layer) {
-			case 8://spieler
-				Weapon.ableToFire = false;
-				enemyHitPlayer();
-				break;
-			case 11://projektil
-				Destroy(col.gameObject);
-				decreaseHealth(1);
-				healthPointsEnemy();
-				break;
+		if (kindOfEnemy == 3) {
+			switch (col.gameObject.layer) {
+				case 8://spieler
+					Weapon.ableToFire = false;
+					enemyHitPlayer();
+					break;
+				case 11://projektil
+					Destroy(col.gameObject);
+					decreaseHealth(1);
+					healthPointsEnemy();
+					break;
+			}
 		}
 	}
 
@@ -80,6 +82,9 @@ public class EnemyBehavior : MonoBehaviour {
 			isDead = true;
 			spriteRenderer.sprite = deadPicture;
 			polyCollider.enabled = false;
+			if (kindOfEnemy !=3) {
+				GetComponentInChildren<EnemyTrigger>().enableCollider(false);
+			}
 			if(kindOfEnemy == 3) {
 				audioSource.pitch = 1f;
 			}
@@ -101,7 +106,9 @@ public class EnemyBehavior : MonoBehaviour {
 	}
 
     public void decreaseHealth(int x) {
+		Debug.Log(health);
 		health -= x;
+		Debug.Log(health);
     }
 
 	//=========================================================fertig===========================================================
@@ -115,7 +122,7 @@ public class EnemyBehavior : MonoBehaviour {
 		Debug.DrawLine(transform.position, target.transform.position);
 		Range = Vector2.Distance(transform.position, target.transform.position);
 		if (Range >= 0.5f) {
-			transform.position = Vector2.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
+			transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
 		}
 	}
 
