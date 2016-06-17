@@ -13,9 +13,10 @@ public class PlayerBehavior : MonoBehaviour {
 	public Sprite[] headSprites;
 	private static bool noMove;
 	private bool stop = false;
-	private double score;
+	private int score;
 	private bool timeoutField = false;
 	GameObject textWave;
+    public GameObject gameManager;
 
 	void Start () {
 		textWave = GameObject.Find("Spawner");
@@ -41,6 +42,7 @@ public class PlayerBehavior : MonoBehaviour {
 		}
 
         if (isPlayerDead()) {
+            gameManager.GetComponent<HighscoreManager>().setScore(score);
 			life.text = "0";
 			wave.enabled = true;
 			highscore.enabled = false;
@@ -73,7 +75,7 @@ public class PlayerBehavior : MonoBehaviour {
 	/// </summary>
 	/// <param name="x">Parameter für die Punktezahl, die übergeben werden soll</param>
 
-	public void addScore(double x) {
+	public void addScore(int x) {
 		score = score + x;
 	}
 
@@ -117,7 +119,7 @@ public class PlayerBehavior : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Bewegung des Spielers. Nur die W,A,S,D und TAB Taste.
+	/// Bewegung des Spielers. Nur die W,A,S,D und ESC Taste.
 	/// </summary>
 
 	private void movement() {
