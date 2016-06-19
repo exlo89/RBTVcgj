@@ -3,18 +3,11 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class LevelManager : MonoBehaviour {
-
-    [Header("level loadtime")]
-    [Tooltip("Set 0 for no load time. Time in seconds")]
-    public float autoLoadNextLevelAfter;
     
     void Start() {
-        if(autoLoadNextLevelAfter == 0) {
-            Debug.Log("Level auto load disable");
-        } else {
-            Invoke("LoadNextLevel", autoLoadNextLevelAfter);
-        }
-    }
+		SceneManager.LoadScene(1);
+		DontDestroyOnLoad(gameObject);
+	}
 
 	public void LoadLevel(string name){
 		SceneManager.LoadScene(name);

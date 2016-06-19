@@ -10,9 +10,10 @@ public class OptionsController : MonoBehaviour {
 
     private MusicManager musicManager;
 
-	// Use this for initialization
 	void Start () {
+
         musicManager = gameManager.GetComponent<MusicManager>();
+		Debug.Log("optionscontroller musicmanager " + musicManager);
         volumeSlider.value = PlayerPrefsManager.GetMasterVolume();
         volumeText.text = PlayerPrefsManager.GetMasterVolume().ToString() + "%";
 	}
