@@ -39,11 +39,12 @@ public class PlayerPrefsManager : MonoBehaviour {
     }
 
 //============================Highscore========================================
+
 	public static void SetHighscore(int highscore) {
 		PlayerPrefs.SetInt(HIGHSCORE_KEY, highscore);
 	}
 
-	public static float GetHighscore() {
+	public static int GetHighscore() {
 		return PlayerPrefs.GetInt(HIGHSCORE_KEY);
 	}
 

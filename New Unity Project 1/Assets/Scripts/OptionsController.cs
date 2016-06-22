@@ -4,21 +4,21 @@ using System.Collections;
 
 public class OptionsController : MonoBehaviour {
 
+    [Tooltip("This is the slider bar for the volume.")]
     public Slider volumeSlider;
+    [Tooltip("This is the textfield for the volume. It show the current volume value.")]
     public Text volumeText;
-    public GameObject gameManager;
 
+    private LevelManager levelManager;
     private MusicManager musicManager;
 
 	void Start () {
-
-        musicManager = gameManager.GetComponent<MusicManager>();
-		Debug.Log("optionscontroller musicmanager " + musicManager);
+        levelManager = GameObject.Find("Game Manager").GetComponent<LevelManager>();
+        musicManager = GameObject.Find("Game Manager").GetComponent<MusicManager>();
         volumeSlider.value = PlayerPrefsManager.GetMasterVolume();
         volumeText.text = PlayerPrefsManager.GetMasterVolume().ToString() + "%";
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
         float volumeValue;
         musicManager.SetVolume(volumeSlider.value);
@@ -29,7 +29,7 @@ public class OptionsController : MonoBehaviour {
 
     public void SaveAndExit() {
         PlayerPrefsManager.SetMasterVolume(volumeSlider.value);
-        gameManager.GetComponent<LevelManager>().LoadLevel("01a Start");
+        levelManager.LoadLevel("01a Start");
     }
 
     public void SetDefaults() {

@@ -61,6 +61,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Enemy\EnemyBehavior.cs" />
+    <Compile Include="Assets\Enemy\EnemySpawner.cs" />
+    <Compile Include="Assets\Enemy\EnemyTrigger.cs" />
+    <Compile Include="Assets\Player\PlayerBehavior.cs" />
+    <Compile Include="Assets\Player\Projectile.cs" />
+    <Compile Include="Assets\Player\Weapon.cs" />
     <Compile Include="Assets\Scripts\Manager\BorderManager.cs" />
     <Compile Include="Assets\Scripts\Manager\HighscoreManager.cs" />
     <Compile Include="Assets\Scripts\Manager\LevelManager.cs" />
@@ -68,12 +74,6 @@
     <Compile Include="Assets\Scripts\OptionsController.cs" />
     <Compile Include="Assets\Scripts\PlayerPrefsManager.cs" />
     <Compile Include="Assets\Scripts\Position.cs" />
-    <Compile Include="Assets\enemy\EnemyBehavior.cs" />
-    <Compile Include="Assets\enemy\EnemySpawner.cs" />
-    <Compile Include="Assets\enemy\EnemyTrigger.cs" />
-    <Compile Include="Assets\player\PlayerBehavior.cs" />
-    <Compile Include="Assets\player\Projectile.cs" />
-    <Compile Include="Assets\player\Weapon.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

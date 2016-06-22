@@ -106,9 +106,7 @@ public class EnemyBehavior : MonoBehaviour {
 	}
 
     public void decreaseHealth(int x) {
-		Debug.Log(health);
 		health -= x;
-		Debug.Log(health);
     }
 
 	//=========================================================fertig===========================================================

@@ -16,9 +16,10 @@ public class PlayerBehavior : MonoBehaviour {
 	private int score;
 	private bool timeoutField = false;
 	GameObject textWave;
-    public GameObject gameManager;
+    private GameObject gameManager;
 
 	void Start () {
+        gameManager = GameObject.Find("Game Manager");
 		textWave = GameObject.Find("Spawner");
 		health = 100;
 		life.text = health.ToString();
@@ -84,9 +85,10 @@ public class PlayerBehavior : MonoBehaviour {
 	/// </summary>
 
 	private void back() {
-		Destroy(GameObject.Find("Persistent Music"));
-		SceneManager.LoadScene("01a Start");
+		SceneManager.LoadScene("03 End");
 	}
+
+  
 
 	/// <summary>
 	/// Setter für die NoMove Variable.
