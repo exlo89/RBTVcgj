@@ -1,36 +1,36 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using System.Collections;
 
 public class HighscoreManager : MonoBehaviour {
 
 	private int currentScore;
     private int highscore;
-    private string savedName;
-	private string highscoreName;
     private GameObject inputName;
-    private GameObject highscoreField;
+    private Text highscoreField;
+
 
     private void Start() {
-        PlayerPrefsManager.SetHighscore(0);
+        //PlayerPrefsManager.SetHighscore(0);
+        //PlayerPrefsManager.SetName("");
         highscore = PlayerPrefsManager.GetHighscore();
-        savedName = PlayerPrefsManager.GetName();
-        Debug.Log(highscore + "      -" + savedName + "-");
     }
 
     private void OnLevelWasLoaded(int index) {
         if(index == 4) {
-            highscoreField = GameObject.Find("Points Textfield");
+            highscoreField = GameObject.Find("Points Textfield").GetComponent<Text>();
             inputName = GameObject.Find("Enter Name Field");
-            //Debug.Log("level " + index + " wurde geladen und Enter name field wurde auch geladen " + inputName);
             if (currentScore > highscore) {
                 highscore = currentScore;
-            } else {
-                Debug.Log(inputName);
-                inputName.SetActive(false);
-                highscoreField.GetComponent<Text>().text = highscore + "  " + savedName;
+                highscoreField.text = highscore.ToString();
+                inputName.GetComponent<InputField>().onEndEdit.AddListener(delegate { setHighscore(); });
+                inputName.GetComponent<InputField>().onValueChanged.AddListener(delegate { changeHighscorefield(); });
             }
-            
+            else {
+                inputName.SetActive(false);
+                highscoreField.text = highscore + "  " + PlayerPrefsManager.GetName();
+            }
         }
     }
 
@@ -38,17 +38,13 @@ public class HighscoreManager : MonoBehaviour {
         currentScore = score;
     }
 
-    public void setHighscore(string ) {
-        Debug.Log("feld fertig bearbeitet");
-        inputName = GameObject.Find("Enter Name Field");
-        highscoreName = inputName.GetComponent<Text>().text;
-        inputName.SetActive(false);
-        highscoreField.GetComponent<Text>().text = highscore + "  " + highscoreName;
-
+    private void changeHighscorefield() {
+        highscoreField.text = highscore + "  " + inputName.GetComponent<InputField>().text;
     }
 
-    private void OnApplicationQuit() {
-        PlayerPrefsManager.SetName(highscoreName);
+    public void setHighscore() {
+        PlayerPrefsManager.SetName(inputName.GetComponent<InputField>().text);
         PlayerPrefsManager.SetHighscore(highscore);
+        inputName.SetActive(false);
     }
 }
