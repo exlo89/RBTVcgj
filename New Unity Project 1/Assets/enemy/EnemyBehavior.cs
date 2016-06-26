@@ -77,6 +77,12 @@ public class EnemyBehavior : MonoBehaviour {
 		Weapon.ableToFire = true;
 	}
 
+	private void OnLevelWasLoaded(int index) {
+		if(index == 2) {
+			Weapon.ableToFire = true;
+		}
+	}
+
 	public void healthPointsEnemy() {
 		if(health <= 0) {
 			isDead = true;
