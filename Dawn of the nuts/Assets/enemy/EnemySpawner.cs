@@ -14,22 +14,23 @@ public class EnemySpawner : MonoBehaviour {
 	private float startPositionZ;
 	private int counter = 0;
 	private int waveCounter = 1;
+	PlayerBehavior playerBehavior;
 
 	// Use this for initialization
 	void Start () {
-		PlayerBehavior.setNoMove(true);
+		playerBehavior = GameObject.Find("player prefab").GetComponent<PlayerBehavior>();
+		playerBehavior.setNoMove(true);
         spawnWave();
     }
     // Update is called once per frame
     void Update() {
-    
         if(AllMembersDead()) {
             spawnWave();
         }
     }
 
     void spawnWave() {
-		PlayerBehavior.setNoMove(true);
+		playerBehavior.setNoMove(true);
         Transform freePosition = NextFreePosition();
         if(freePosition) {
 			GameObject enemy = Instantiate(chooseEnemy(), new Vector3(freePosition.position.x, freePosition.position.y, startPositionZ), Quaternion.identity) as GameObject;
@@ -43,7 +44,7 @@ public class EnemySpawner : MonoBehaviour {
 		if (counter == 10) {
 			counter = 0;
 			waveCounter++;
-			PlayerBehavior.setNoMove(false);
+			playerBehavior.setNoMove(false);
 		}
 		
     }

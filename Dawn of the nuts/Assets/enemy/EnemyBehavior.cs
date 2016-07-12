@@ -16,7 +16,8 @@ public class EnemyBehavior : MonoBehaviour {
 	public AudioClip dead;
 
 	private int health;
-	private GameObject player;
+	PlayerBehavior playerBehavior;
+	GameObject target;
     private float Range;
 	private float damage;
 	private AudioSource audioSource;
@@ -31,8 +32,9 @@ public class EnemyBehavior : MonoBehaviour {
 		polyCollider = GetComponent<PolygonCollider2D>();
 		audioSource.volume = PlayerPrefsManager.GetMasterVolume();
 		playSounds(normal);
-		player = GameObject.FindGameObjectWithTag("Player");
-		
+		playerBehavior = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehavior>();
+		target = GameObject.FindGameObjectWithTag("Player");
+
 		switch (kindOfEnemy) {
 			case 1: //schnellen gegner 2 health
 				health = 2;
@@ -101,7 +103,6 @@ public class EnemyBehavior : MonoBehaviour {
 			spriteRenderer.sprite = hitPicture;
 			Invoke("enemyNormalPicture",switchTime);
 		}
-		
 	}
 
 	private void enemyNormalPicture() {
@@ -122,7 +123,6 @@ public class EnemyBehavior : MonoBehaviour {
 	/// </summary>
 
 	private void movement() {
-		GameObject target = GameObject.FindGameObjectWithTag("Player");
 		Debug.DrawLine(transform.position, target.transform.position);
 		Range = Vector2.Distance(transform.position, target.transform.position);
 		if (Range >= 0.5f) {
@@ -146,7 +146,7 @@ public class EnemyBehavior : MonoBehaviour {
 
 	public void enemyHitPlayer() {
 		playSounds(hitPlayer);
-		player.GetComponent<PlayerBehavior>().decreaseHealth(damage);
+		playerBehavior.decreaseHealth(damage);
 	}
 
 	/// <summary>
@@ -156,9 +156,9 @@ public class EnemyBehavior : MonoBehaviour {
 	private void enemyDisabled() {
 		spriteRenderer.enabled = false;
 		switch (kindOfEnemy) {
-			case 1: player.GetComponent<PlayerBehavior>().addScore(100); break;
-			case 2: player.GetComponent<PlayerBehavior>().addScore(150); break;
-			case 3: player.GetComponent<PlayerBehavior>().addScore(500); break;
+			case 1: playerBehavior.addScore(100); break;
+			case 2: playerBehavior.addScore(150); break;
+			case 3: playerBehavior.addScore(500); break;
 		}
 		Invoke("enemyDestroy", 3f);
 	}

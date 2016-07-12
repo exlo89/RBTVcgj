@@ -10,7 +10,6 @@ public class HighscoreManager : MonoBehaviour {
     private GameObject inputName;
     private Text highscoreField;
 
-
     private void Start() {
         //PlayerPrefsManager.SetHighscore(0);
         //PlayerPrefsManager.SetName("");

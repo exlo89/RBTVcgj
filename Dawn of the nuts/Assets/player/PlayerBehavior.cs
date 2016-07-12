@@ -6,7 +6,6 @@ using System.Collections;
 public class PlayerBehavior : MonoBehaviour {
 	public float speed;
     public float health;
-	public Text wave;
     public Text life;
 	public Text highscore;
 	public Image headImage;
@@ -15,12 +14,14 @@ public class PlayerBehavior : MonoBehaviour {
 	private bool stop = false;
 	private int score;
 	private bool timeoutField = false;
-	GameObject textWave;
-    private GameObject gameManager;
+	Text waveText;
+	EnemySpawner enemySpawner;
+	HighscoreManager highscoreManager;
 
 	void Start () {
-        gameManager = GameObject.Find("Game Manager");
-		textWave = GameObject.Find("Spawner");
+        highscoreManager = GameObject.Find("Game Manager").GetComponent<HighscoreManager>();
+		enemySpawner = GameObject.Find("Spawner").GetComponent<EnemySpawner>();
+		waveText = GameObject.Find("Wave").GetComponent<Text>();
 		health = 100;
 		life.text = health.ToString();
 		score = 0;
@@ -33,24 +34,22 @@ public class PlayerBehavior : MonoBehaviour {
 		highscore.text = score.ToString();
 		healthAdvice();
  
-		if (!noMove) {
-			movement();
-			wave.GetComponent<Text>().enabled = false;
-		} else {
-			this.transform.position = new Vector3(0, 0, 0);
-			wave.GetComponent<Text>().enabled = true;
-			wave.text = "wave " + textWave.GetComponent<EnemySpawner>().getWaveCounter().ToString();
-		}
-
         if (isPlayerDead()) {
-            gameManager.GetComponent<HighscoreManager>().setScore(score);
-			life.text = "0";
-			wave.enabled = true;
-			highscore.enabled = false;
+            highscoreManager.setScore(score);
+			waveText.enabled = true;
 			noMove = true;
-			wave.text = "you have " + score + " points and survived " + (textWave.GetComponent<EnemySpawner>().getWaveCounter()-2) + " waves";
+			waveText.text = "you have " + score + " points and survived " + (enemySpawner.getWaveCounter()-2) + " waves";
 			Invoke("back", 5f);
-        }
+        } else {
+			if (!noMove) {
+				movement();
+				waveText.enabled = false;
+			} else {
+				this.transform.position = new Vector3(0, 0, 0);
+				waveText.enabled = true;
+				waveText.text = "wave " + enemySpawner.getWaveCounter().ToString();
+			}
+		}
 	}
 
 	public void setTimeoutField(bool x) {
@@ -95,7 +94,7 @@ public class PlayerBehavior : MonoBehaviour {
 	/// </summary>
 	/// <param name="x">true oder false für das Setzen</param>
 
-	public static void setNoMove(bool x) {
+	public void setNoMove(bool x) {
 		noMove = x;
 	}
 
@@ -113,7 +112,7 @@ public class PlayerBehavior : MonoBehaviour {
 	/// </summary>
 	/// <returns>gibt false zurück, wenn der Spieler noch lebt</returns>
 
-	private bool isPlayerDead() {
+	bool isPlayerDead() {
 		if (health <= 0 || timeoutField) {
 			return true;
 		}
@@ -124,7 +123,7 @@ public class PlayerBehavior : MonoBehaviour {
 	/// Bewegung des Spielers. Nur die W,A,S,D und ESC Taste.
 	/// </summary>
 
-	private void movement() {
+	void movement() {
 
 		//==============zurück zum menü=================================
 
@@ -153,7 +152,7 @@ public class PlayerBehavior : MonoBehaviour {
 	/// Methode die für die Lebensanzeige, in Form von Bildern, zuständig ist.
 	/// </summary>
 
-	private void healthAdvice() {
+	void healthAdvice() {
 		if (health <= 100 && health >= 80) {
 			headImage.sprite = headSprites[0];
 		} else if (health < 80 && health >= 60) {

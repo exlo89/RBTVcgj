@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[HelpURL("https://exlo-gamedev.tumblr.com/")]
 public class MusicManager : MonoBehaviour {
 
-    [Header("song container for the game")]
+	
+	[Header("song container for the game")]
     [Tooltip("Set the quantity of the ingame songs. After this put the songs in the elements. " +
             "Every element represent a scene. In scene one the first element would be load. " +
             "In the second scene the second song and so on.")]
