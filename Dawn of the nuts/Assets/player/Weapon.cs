@@ -6,23 +6,28 @@ public class Weapon : MonoBehaviour {
     public float damage = 10;
     public LayerMask whatToHit;
     public Transform projectile;
-	public static bool ableToFire = true;
+	public bool ableToFire = true;
 
+    PlayerBehavior playerBehaviorScript;
+
+    void Start() {
+        playerBehaviorScript = GameObject.Find("player prefab").GetComponent<PlayerBehavior>();
+    }
 
 	// Update is called once per frame
 	void Update () {
 		calculateRotation();
-		if (!(PlayerBehavior.getNoMove()) && ableToFire) {
+		if (!(playerBehaviorScript.getNoMove()) && ableToFire) {
 			if (Input.GetKeyDown(KeyCode.Mouse0)) {
 				InvokeRepeating("Fire", 0.000001f, fireRate);
 			}
 		}
-		if (Input.GetKeyUp(KeyCode.Mouse0) || PlayerBehavior.getNoMove()) {
+		if (Input.GetKeyUp(KeyCode.Mouse0) || playerBehaviorScript.getNoMove()) {
 			CancelInvoke("Fire");
 		}
 	}
 
-	public static void setAbleToFire(bool x) {
+	public void setAbleToFire(bool x) {
 		ableToFire = x;
 	}
 

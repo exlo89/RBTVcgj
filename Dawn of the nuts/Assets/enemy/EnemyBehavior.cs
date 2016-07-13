@@ -15,27 +15,29 @@ public class EnemyBehavior : MonoBehaviour {
 	public AudioClip normal;
 	public AudioClip dead;
 
-	private int health;
-	PlayerBehavior playerBehavior;
-	GameObject target;
-    private float Range;
-	private float damage;
-	private AudioSource audioSource;
-	private SpriteRenderer spriteRenderer;
-	private PolygonCollider2D polyCollider;
-	private bool isDead = false;
-	
+	int health;
+    float Range;
+	float damage;
+    bool isDead = false;
 
-	private void Start () {
+    AudioSource audioSource;
+	SpriteRenderer spriteRenderer;
+	PolygonCollider2D polyCollider;
+    PlayerBehavior playerBehaviorScript;
+    GameObject target;
+    Weapon weaponScript;
+
+    private void Start () {
         audioSource = GetComponent<AudioSource>();
-		spriteRenderer = GetComponent<SpriteRenderer>();
+        audioSource.volume = PlayerPrefsManager.GetMasterVolume();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 		polyCollider = GetComponent<PolygonCollider2D>();
-		audioSource.volume = PlayerPrefsManager.GetMasterVolume();
-		playSounds(normal);
-		playerBehavior = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehavior>();
+		playerBehaviorScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehavior>();
 		target = GameObject.FindGameObjectWithTag("Player");
+        weaponScript = GameObject.Find("weapon").GetComponent<Weapon>();
+        playSounds(normal);
 
-		switch (kindOfEnemy) {
+        switch (kindOfEnemy) {
 			case 1: //schnellen gegner 2 health
 				health = 2;
 				damage = 5;
@@ -54,7 +56,7 @@ public class EnemyBehavior : MonoBehaviour {
 
 	// Update is called once per frame
 	private void Update () {
-		if (!isDead && !(PlayerBehavior.getNoMove())) {
+		if (!isDead && !(playerBehaviorScript.getNoMove())) {
 			movement();
 		}
     }
@@ -63,7 +65,7 @@ public class EnemyBehavior : MonoBehaviour {
 		if (kindOfEnemy == 3) {
 			switch (col.gameObject.layer) {
 				case 8://spieler
-					Weapon.ableToFire = false;
+					weaponScript.ableToFire = false;
 					enemyHitPlayer();
 					break;
 				case 11://projektil
@@ -76,12 +78,12 @@ public class EnemyBehavior : MonoBehaviour {
 	}
 
 	private void OnTriggerExit2D(Collider2D col) {
-		Weapon.ableToFire = true;
+		weaponScript.ableToFire = true;
 	}
 
 	private void OnLevelWasLoaded(int index) {
 		if(index == 2) {
-			Weapon.ableToFire = true;
+			weaponScript.ableToFire = true;
 		}
 	}
 
@@ -146,7 +148,7 @@ public class EnemyBehavior : MonoBehaviour {
 
 	public void enemyHitPlayer() {
 		playSounds(hitPlayer);
-		playerBehavior.decreaseHealth(damage);
+		playerBehaviorScript.decreaseHealth(damage);
 	}
 
 	/// <summary>
@@ -156,9 +158,9 @@ public class EnemyBehavior : MonoBehaviour {
 	private void enemyDisabled() {
 		spriteRenderer.enabled = false;
 		switch (kindOfEnemy) {
-			case 1: playerBehavior.addScore(100); break;
-			case 2: playerBehavior.addScore(150); break;
-			case 3: playerBehavior.addScore(500); break;
+			case 1: playerBehaviorScript.addScore(100); break;
+			case 2: playerBehaviorScript.addScore(150); break;
+			case 3: playerBehaviorScript.addScore(500); break;
 		}
 		Invoke("enemyDestroy", 3f);
 	}

@@ -10,17 +10,20 @@ public class PlayerBehavior : MonoBehaviour {
 	public Text highscore;
 	public Image headImage;
 	public Sprite[] headSprites;
-	private static bool noMove;
-	private bool stop = false;
-	private int score;
-	private bool timeoutField = false;
-	Text waveText;
-	EnemySpawner enemySpawner;
-	HighscoreManager highscoreManager;
+
+    int score;
+
+    bool noMove;
+	bool stop = false;
+	bool timeoutField = false;
+
+    Text waveText;
+	EnemySpawner enemySpawnerScript;
+	HighscoreManager highscoreManagerScript;
 
 	void Start () {
-        highscoreManager = GameObject.Find("Game Manager").GetComponent<HighscoreManager>();
-		enemySpawner = GameObject.Find("Spawner").GetComponent<EnemySpawner>();
+        highscoreManagerScript = GameObject.Find("Game Manager").GetComponent<HighscoreManager>();
+		enemySpawnerScript = GameObject.Find("Spawner").GetComponent<EnemySpawner>();
 		waveText = GameObject.Find("Wave").GetComponent<Text>();
 		health = 100;
 		life.text = health.ToString();
@@ -35,11 +38,11 @@ public class PlayerBehavior : MonoBehaviour {
 		healthAdvice();
  
         if (isPlayerDead()) {
-            highscoreManager.setScore(score);
+            highscoreManagerScript.setScore(score);
 			waveText.enabled = true;
 			noMove = true;
-			waveText.text = "you have " + score + " points and survived " + (enemySpawner.getWaveCounter()-2) + " waves";
-			Invoke("back", 5f);
+			waveText.text = "you have " + score + " points and survived " + (enemySpawnerScript.getWaveCounter()-2) + " waves";
+			Invoke("loadEndScreen", 5f);
         } else {
 			if (!noMove) {
 				movement();
@@ -47,7 +50,7 @@ public class PlayerBehavior : MonoBehaviour {
 			} else {
 				this.transform.position = new Vector3(0, 0, 0);
 				waveText.enabled = true;
-				waveText.text = "wave " + enemySpawner.getWaveCounter().ToString();
+				waveText.text = "wave " + enemySpawnerScript.getWaveCounter().ToString();
 			}
 		}
 	}
@@ -83,7 +86,7 @@ public class PlayerBehavior : MonoBehaviour {
 	/// Springt zurück zum Hauptmenü und zerstört den aktuellen Musikplayer
 	/// </summary>
 
-	private void back() {
+	private void loadEndScreen() {
 		SceneManager.LoadScene("03 End");
 	}
 
@@ -103,7 +106,7 @@ public class PlayerBehavior : MonoBehaviour {
 	/// </summary>
 	/// <returns>gibt den aktuellen Zustand zurück (true/false)</returns>
 
-	public static bool getNoMove() {
+	public bool getNoMove() {
 		return noMove;
 	}
 

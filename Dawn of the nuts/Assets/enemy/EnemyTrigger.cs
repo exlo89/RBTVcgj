@@ -3,15 +3,17 @@ using System.Collections;
 
 public class EnemyTrigger : MonoBehaviour {
 
-	private EnemyBehavior enemyBehaviorScript;
+	EnemyBehavior enemyBehaviorScript;
+    Weapon weaponScript;
 	private void Start() {
 		enemyBehaviorScript = this.GetComponentInParent<EnemyBehavior>();
+        weaponScript = GameObject.Find("weapon").GetComponent<Weapon>();
 	}
 
     private void OnTriggerEnter2D(Collider2D col) {
         switch (col.gameObject.layer){
             case 8://spieler
-                Weapon.ableToFire = false;
+                weaponScript.ableToFire = false;
                 enemyBehaviorScript.enemyHitPlayer();
                 break;
             case 11://projektil
@@ -27,6 +29,6 @@ public class EnemyTrigger : MonoBehaviour {
 	}
 
     private void OnTriggerExit2D(Collider2D col) {
-        Weapon.ableToFire = true;
+        weaponScript.ableToFire = true;
     }
 }
