@@ -4,6 +4,7 @@ using System.Collections;
 public class EnemyBehavior : MonoBehaviour {
 
     public float speed;
+    public float attackSpeed;
 	public float switchTime;
     public float hitTime;
 	public int kindOfEnemy;
@@ -127,10 +128,24 @@ public class EnemyBehavior : MonoBehaviour {
 	private void movement() {
 		Debug.DrawLine(transform.position, target.transform.position);
 		Range = Vector2.Distance(transform.position, target.transform.position);
-		if (Range >= 0.5f) {
-			transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
-		}
+        Debug.Log(Range);
+        //if (Range >= 0.5f) {
+            if (Range >= 3f) {
+                transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
+            } else {
+                transform.position = Vector3.MoveTowards(transform.position, target.transform.position, attackSpeed * Time.deltaTime);
+            }
+        
+        
+        
+        
 	}
+
+    void attack() {
+
+    }
+
+
 
 	/// <summary>
 	/// Spielt den Soundeffekt ab.

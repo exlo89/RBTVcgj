@@ -4,7 +4,7 @@ using System.Collections;
 
 public class APIManager : MonoBehaviour {
 
-	public GameObject inputName;
+	private GameObject inputName;
 	private Text userText;
 	private string guestName = "guest";
 
@@ -12,6 +12,7 @@ public class APIManager : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) {
 			inputName.SetActive(true);
 			Debug.Log("Test");
+
 
 
 
@@ -24,7 +25,8 @@ public class APIManager : MonoBehaviour {
 	void OnLevelWasLoaded(int level) {
 		if (level == 1) {
 			userText = GameObject.Find("Username").GetComponent<Text>();
-			inputName.SetActive(false);
+            inputName = GameObject.Find("GuestName");
+            inputName.SetActive(false);
 			//inputName = GameObject.Find("GuestName");
 			if (GameJolt.API.Manager.Instance.CurrentUser != null) {
 				userText.text = "you sign in as " + GameJolt.API.Manager.Instance.CurrentUser.Name.ToString();
