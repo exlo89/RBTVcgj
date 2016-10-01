@@ -4,7 +4,20 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class PlayerBehavior : MonoBehaviour {
-	public float speed;
+
+    private float speed;
+
+    public float Speed
+    {
+        get
+        {
+            return speed;
+        }
+        set
+        {
+            Speed = value;
+        }
+    }
     public float health;
     public Text life;
 	public Text highscore;
@@ -38,7 +51,7 @@ public class PlayerBehavior : MonoBehaviour {
 		healthAdvice();
  
         if (isPlayerDead()) {
-            highscoreManagerScript.setScore(score);
+            highscoreManagerScript.Score = score;
 			waveText.enabled = true;
 			noMove = true;
 			waveText.text = "you have " + score + " points and survived " + (enemySpawnerScript.getWaveCounter()-2) + " waves";

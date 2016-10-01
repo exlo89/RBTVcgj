@@ -26,6 +26,7 @@ public class MusicManager : MonoBehaviour {
         AudioClip thisLevelMusic = levelMusicChangeArray[level];
         //Debug.Log("Playing clip: " + thisLevelMusic + " on  level " + level);
         if (thisLevelMusic != null && thisLevelMusic != currentClip) {
+
             audioSource.clip = thisLevelMusic;
             audioSource.loop = true;
             audioSource.Play();

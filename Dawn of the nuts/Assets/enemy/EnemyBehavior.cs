@@ -128,7 +128,7 @@ public class EnemyBehavior : MonoBehaviour {
 	private void movement() {
 		Debug.DrawLine(transform.position, target.transform.position);
 		Range = Vector2.Distance(transform.position, target.transform.position);
-        Debug.Log(Range);
+        //Debug.Log(Range);
         //if (Range >= 0.5f) {
             if (Range >= 3f) {
                 transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
