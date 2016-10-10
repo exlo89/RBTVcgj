@@ -5,19 +5,7 @@ using System.Collections;
 
 public class PlayerBehavior : MonoBehaviour {
 
-    private float speed;
-
-    public float Speed
-    {
-        get
-        {
-            return speed;
-        }
-        set
-        {
-            Speed = value;
-        }
-    }
+	public float speed;
     public float health;
     public Text life;
 	public Text highscore;

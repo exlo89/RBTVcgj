@@ -130,15 +130,11 @@ public class EnemyBehavior : MonoBehaviour {
 		Range = Vector2.Distance(transform.position, target.transform.position);
         //Debug.Log(Range);
         //if (Range >= 0.5f) {
-            if (Range >= 3f) {
+            if (Range >= 0.05f) {
                 transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
             } else {
                 transform.position = Vector3.MoveTowards(transform.position, target.transform.position, attackSpeed * Time.deltaTime);
             }
-        
-        
-        
-        
 	}
 
     void attack() {
